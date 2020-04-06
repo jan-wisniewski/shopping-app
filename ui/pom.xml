@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>shopping-app</artifactId>
+        <groupId>wisniewski.jan</groupId>
+        <version>${revision}</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <packaging>jar</packaging>
+
+    <artifactId>ui</artifactId>
+
+    <dependencies>
+        <dependency>
+            <groupId>wisniewski.jan</groupId>
+            <artifactId>persistence</artifactId>
+            <version>${revision}</version>
+        </dependency>
+        <dependency>
+            <groupId>wisniewski.jan</groupId>
+            <artifactId>service</artifactId>
+            <version>${revision}</version>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <plugins>
+            <!-- RESOURCES PLUGIN -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-resources</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <!-- MIEJSCE DOCELOWE KOPIOWANIA PLIKOW -->
+                            <outputDirectory>${basedir}/target/resources</outputDirectory>
+                            <!-- SKAD KOPIUJEMY PLIKI -->
+                            <resources>
+                                <resource>
+                                    <directory>${basedir}/src/main/resources</directory>
+                                    <filtering>true</filtering>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- PLUGIN DO SCALANIE DEPENDENCIES W JEDEN JAR -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <!--
+                                Dzieki temu ustawieniu mozesz uruchamiac aplikacje za pomoca:
+                                java -jar <nazwa_pliku>.jar
+                                Chyba ze masz JDK > 11
+                                java <myslnik><myslnik>enable-preview -jar <nazwa_pliku>.jar
+                                Zeby java -jar zadzialalo musi wiedziec w ktorej klasie ma szukac main
+                                i wlasnie ponizej wskazujesz ta klase
+                            -->
+                            <mainClass>com.app.ui.App</mainClass>
+                        </manifest>
+                    </archive>
+                    <descriptorRefs>
+                        <!--
+                            descriptorRef okresla schemat wedlug ktorego bedziemy budowac nasz wynikowy
+                            plik. Nas oczywiscie interesuje jar-with-dependencies ktory bedzie jarem
+                            z zawartymi w nim dependencies z naszego projektu
+
+                            Jakie inne mamy tutaj mozliwosci jezeli chodzi o descriptionRef?
+                            Patrz dokumentacja:
+                            https://maven.apache.org/plugins/maven-assembly-plugin/descriptor-refs.html
+                        -->
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                    <!-- zeby nam nie dolaczalo do nazwy z finalName prefix 'jar-with-dependencies' -->
+                    <appendAssemblyId>false</appendAssemblyId>
+                </configuration>
+                <executions>
+                    <!--
+                        Dzieki temu execution plugin wie ze ma wykonac opcje assembly:single
+                        kiedy my wywolujemy mvn package. Kiedy wywolasz mvn clean install
+                        z poziomu glownego pom.xml to posrednio spowoduje to wykonanie
+                        mvn package na tym module wiec wystarczy pozniej juz tylko wywolywac
+                        mvn clean install z poziomu glownego pom.xml.
+                    -->
+                    <execution>
+                        <id>make-assembly</id> <!-- this is used for inheritance merges -->
+                        <phase>package</phase> <!-- bind to the packaging phase -->
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- PLUGIN GWARANTUJACY DOLACZENIE ODPOWIEDNIEJ WERSJI JAVA -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>13</source>
+                    <target>13</target>
+                    <compilerArgs>
+                        <arg>--enable-preview</arg>
+                    </compilerArgs>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+
+</project>
