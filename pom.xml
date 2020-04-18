@@ -25,6 +25,12 @@
         <gson.version>2.8.6</gson.version>
         <lombok.version>1.18.12</lombok.version>
         <eclipse.collections>10.2.0</eclipse.collections>
+        <mvn.site.plugin.version>3.9.0</mvn.site.plugin.version>
+        <mvn.flatten.plugin.version>1.2.1</mvn.flatten.plugin.version>
+        <mvn.enforcer.plugin.version>3.0.0-M3</mvn.enforcer.plugin.version>
+        <mvn.resources.plugin.version>3.1.0</mvn.resources.plugin.version>
+        <mvn.assembly.plugin.version>3.2.0</mvn.assembly.plugin.version>
+        <mvn.compiler.plugin.version>3.8.1</mvn.compiler.plugin.version>
     </properties>
 
     <dependencyManagement>
@@ -48,6 +54,40 @@
     </dependencyManagement>
     <build>
         <finalName>app</finalName>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-site-plugin</artifactId>
+                    <version>${mvn.site.plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>flatten-maven-plugin</artifactId>
+                    <version>${mvn.flatten.plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-enforcer-plugin</artifactId>
+                    <version>${mvn.enforcer.plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <version>${mvn.resources.plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-assembly-plugin</artifactId>
+                    <version>${mvn.assembly.plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${mvn.compiler.plugin.version}</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
         <plugins>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
