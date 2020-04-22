@@ -35,13 +35,6 @@ public class OrdersService {
                 .orElseThrow();
     }
 
-//    public String showAllOrders() {
-//        return orders.stream()
-//                .map(o -> o.getCustomer() + " bought " + o.getProduct() +
-//                        " (quantity: " + o.getQuantity() + "), date: " + o.getOrderDate())
-//                .collect(Collectors.joining("\n"));
-//    }
-
     public List<Order> showAllOrders() {
         return orders;
     }
