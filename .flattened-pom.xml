@@ -13,14 +13,14 @@
     <mvn.flatten.plugin.version>1.2.1</mvn.flatten.plugin.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <mvn.compiler.plugin.version>3.8.1</mvn.compiler.plugin.version>
-    <java.version>13</java.version>
-    <maven.compiler.source>13</maven.compiler.source>
+    <java.version>14</java.version>
+    <maven.compiler.source>14</maven.compiler.source>
     <mvn.resources.plugin.version>3.1.0</mvn.resources.plugin.version>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <revision>1.0</revision>
     <lombok.version>1.18.12</lombok.version>
     <eclipse.collections>10.2.0</eclipse.collections>
-    <maven.compiler.target>13</maven.compiler.target>
+    <maven.compiler.target>14</maven.compiler.target>
     <mvn.enforcer.plugin.version>3.0.0-M3</mvn.enforcer.plugin.version>
   </properties>
   <dependencyManagement>
