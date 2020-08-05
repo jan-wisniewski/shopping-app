@@ -12,6 +12,6 @@ import lombok.NoArgsConstructor;
 public class CreateCustomerDto {
     private String name;
     private String surname;
-    private int age;
+    private Integer age;
     private String email;
 }

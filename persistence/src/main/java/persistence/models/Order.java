@@ -14,6 +14,6 @@ import java.time.LocalDate;
 public class Order {
     private Customer customer;
     private Product product;
-    private int quantity;
+    private Integer quantity;
     private LocalDate orderDate;
 }

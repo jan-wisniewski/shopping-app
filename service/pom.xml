@@ -14,6 +14,10 @@
 
     <dependencies>
         <dependency>
+            <groupId>com.sun.mail</groupId>
+            <artifactId>javax.mail</artifactId>
+        </dependency>
+        <dependency>
             <groupId>wisniewski.jan</groupId>
             <artifactId>persistence</artifactId>
             <version>${revision}</version>

@@ -10,6 +10,7 @@
     <maven.compiler.source>14</maven.compiler.source>
     <mvn.resources.plugin.version>3.1.0</mvn.resources.plugin.version>
     <mvn.site.plugin.version>3.9.0</mvn.site.plugin.version>
+    <javax.version>1.6.2</javax.version>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <revision>1.0</revision>
     <lombok.version>1.18.12</lombok.version>
@@ -23,6 +24,12 @@
     <mvn.compiler.plugin.version>3.8.1</mvn.compiler.plugin.version>
   </properties>
   <dependencies>
+    <dependency>
+      <groupId>com.sun.mail</groupId>
+      <artifactId>javax.mail</artifactId>
+      <version>1.6.2</version>
+      <scope>compile</scope>
+    </dependency>
     <dependency>
       <groupId>wisniewski.jan</groupId>
       <artifactId>persistence</artifactId>

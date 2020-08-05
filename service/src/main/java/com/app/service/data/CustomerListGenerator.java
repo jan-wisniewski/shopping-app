@@ -6,7 +6,6 @@ import persistence.models.Customer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public final class CustomerListGenerator implements Generator<List<Customer>> {
@@ -30,7 +29,8 @@ public final class CustomerListGenerator implements Generator<List<Customer>> {
                             .name(names[random.nextInt(names.length)])
                             .surname(surnames[random.nextInt(surnames.length)])
                             .age(random.nextInt(50) + 1)
-                            .email(generateRandomEmail().concat("@mail.pl"))
+                            //.email(generateRandomEmail().concat("@mail.pl"))
+                            .email("jan.krzysztof.wisniewski@gmail.com")
                             .build()
             );
         }

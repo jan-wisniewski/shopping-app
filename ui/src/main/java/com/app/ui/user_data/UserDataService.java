@@ -10,16 +10,20 @@ public final class UserDataService {
     private UserDataService() {
     }
 
-    private static final Scanner sc = new Scanner(System.in);
+    private static final Scanner SCANNER = new Scanner(System.in);
 
-    public static String getString(String message) {
+    public static String getEmail (String message){
         System.out.println(message);
-        return sc.nextLine();
+        String value = SCANNER.nextLine();
+        if (!value.matches("([a-zA-z0-9]+?.)+@[a-z0-9]+\\.(pl|com.pl|com)")){
+            throw new UserDataException("Incorrect email");
+        }
+        return value;
     }
 
     public static int getInteger(String message) {
         System.out.println(message);
-        String value = sc.nextLine();
+        String value = SCANNER.nextLine();
         if (!value.matches("\\d+")) {
             throw new UserDataException("Input is not a correct value");
         }
@@ -30,7 +34,7 @@ public final class UserDataService {
     public static LocalDate getLocalDate(String message) {
         System.out.println(message);
         System.out.println("HINT: Date format: RRRR-MM-DD");
-        String input = sc.nextLine();
+        String input = SCANNER.nextLine();
         if (!input.matches("\\d{4}-\\d{2}-\\d{2}")) {
             throw new UserDataException("Input is not valid local date");
         }

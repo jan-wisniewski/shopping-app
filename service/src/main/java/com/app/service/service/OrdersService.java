@@ -124,13 +124,12 @@ public class OrdersService {
                         .max(Comparator.comparing(Map.Entry::getKey))
                         .orElseThrow()
                         .getKey()
-
                 ));
     }
 
     public List<Customer> findCustomersByNumberOfOrders(int quantity) {
         if (quantity <= 0) {
-            throw new IllegalArgumentException("Incorrect number of oders");
+            throw new IllegalArgumentException("Incorrect number of orders");
         }
         return orders.stream()
                 .filter(o -> o.getQuantity() >= quantity)
@@ -147,7 +146,6 @@ public class OrdersService {
     }
 
     public BigDecimal countTotalPriceWithDiscounts() {
-
         return orders
                 .stream()
                 .map(o -> o
@@ -159,15 +157,15 @@ public class OrdersService {
     }
 
     private BigDecimal calculateDiscount(Order order) {
+        BigDecimal discount1 = BigDecimal.ZERO;
+        BigDecimal discount2 = BigDecimal.ZERO;
         if (isAtLeastTwoDaysToOrder(order)) {
-            return new BigDecimal(DISCOUNT_TWO_DAYS_TO_ORDER);
+            discount1 = new BigDecimal(DISCOUNT_TWO_DAYS_TO_ORDER);
         }
-
         if (isCustomerUnderOrEqual25Years(order)) {
-            return new BigDecimal(DISCOUNT_CUSTOMER_UNDER_OR_EQUAL_25);
+            discount2 = new BigDecimal(DISCOUNT_CUSTOMER_UNDER_OR_EQUAL_25);
         }
-
-        return BigDecimal.ZERO;
+        return discount2.max(discount1);
     }
 
     private boolean isAtLeastTwoDaysToOrder(Order order) {

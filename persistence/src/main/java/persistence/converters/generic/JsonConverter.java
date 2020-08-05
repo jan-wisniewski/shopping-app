@@ -19,7 +19,6 @@ public abstract class JsonConverter<T> {
         this.jsonFilename = jsonFilename;
     }
 
-    //from object to json
     public void toJson(final T element) {
         try (FileWriter fileWriter = new FileWriter(jsonFilename)) {
             if (element == null) {
@@ -31,7 +30,6 @@ public abstract class JsonConverter<T> {
         }
     }
 
-    //from json to object
     public Optional<T> fromJson() {
         try (FileReader fileReader = new FileReader(jsonFilename)) {
             return Optional.of(gson.fromJson(fileReader, type));

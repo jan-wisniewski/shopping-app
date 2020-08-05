@@ -1,22 +1,23 @@
 package com.app.ui.menu;
 
+import com.app.service.email.EmailService;
 import com.app.service.service.OrdersService;
 import com.app.ui.user_data.UserDataService;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import lombok.RequiredArgsConstructor;
 import persistence.converters.impl.CustomerJsonConverter;
 import persistence.models.Customer;
+import persistence.models.Product;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
+@RequiredArgsConstructor
 public class MenuService {
 
-    private final OrdersService ordersService;
-
-    public MenuService(OrdersService ordersService) {
-        this.ordersService = ordersService;
-    }
+    private final OrdersService ORDERS_SERVICE;
 
     public void mainMenu() {
         while (true) {
@@ -62,61 +63,73 @@ public class MenuService {
     }
 
     private void option12() {
-        System.out.println(ordersService.countTotalPriceWithDiscounts());
+        System.out.println(ORDERS_SERVICE.countTotalPriceWithDiscounts());
     }
 
     private void option11() {
         LocalDate from = UserDataService.getLocalDate("Type date from");
         LocalDate to = UserDataService.getLocalDate("Type date to");
-        System.out.println(ordersService.averagePriceInTimeRange(from,to));
+        System.out.println(ORDERS_SERVICE.averagePriceInTimeRange(from, to));
     }
 
     private void option10() {
-        List<Customer> customers = ordersService.findCustomersByNumberOfOrders(UserDataService.getInteger("Type quantity"));
+        List<Customer> customers = ORDERS_SERVICE.findCustomersByNumberOfOrders(UserDataService.getInteger("Type quantity"));
         System.out.println(customers);
         final String FILENAME = "./resources/data/customersAndPurchases.json";
         new CustomerJsonConverter(FILENAME).toJson(customers);
     }
 
     private void option9() {
-        System.out.println(toJson(ordersService.mostPopularCategoryInMonth()));
+        System.out.println(toJson(ORDERS_SERVICE.mostPopularCategoryInMonth()));
     }
 
     private void option8() {
-        System.out.println(toJson(ordersService.monthAndOrderedProducts()));
+        System.out.println(toJson(ORDERS_SERVICE.monthAndOrderedProducts()));
     }
 
     private void option7() {
-        System.out.println(toJson(ordersService.categoryWhichProductsBuyTheMost()));
+        System.out.println(toJson(ORDERS_SERVICE.categoryWhichProductsBuyTheMost()));
     }
 
     private void option6() {
-        System.out.println(toJson(ordersService.spentTheMost()));
+        System.out.println(toJson(ORDERS_SERVICE.spentTheMost()));
     }
 
     private void option5() {
-        System.out.println(toJson(ordersService.dateWithMostOrders()));
+        System.out.println(toJson(ORDERS_SERVICE.dateWithMostOrders()));
     }
 
     private void option4() {
-        System.out.println(toJson(ordersService.dateWithLeastOrders()));
+        System.out.println(toJson(ORDERS_SERVICE.dateWithLeastOrders()));
     }
 
     private void option3() {
-        System.out.println(toJson(ordersService.groupProductByCustomer(
-                UserDataService.getString("Input customer e-mail")
-        )));
+        String email = UserDataService.getEmail("Input customer e-mail");
+        List<Product> products = ORDERS_SERVICE.groupProductByCustomer(email);
+        if (products.isEmpty()) {
+            System.out.println("No products for this email");
+            return;
+        }
+        System.out.println(toJson(products));
+        EmailService.send(email, "Your products!", formatProductsList(products));
+    }
+
+    private String formatProductsList(List<Product> products) {
+        return products
+                .stream()
+                .map(prod -> prod.getName() + " (" + prod.getCategory() + ") - " + prod.getPrice())
+                .collect(Collectors.joining(", "));
     }
 
     private void option2() {
-        System.out.println(toJson(ordersService.findMostExpensiveProductInCategory()));
+        System.out.println(toJson(ORDERS_SERVICE.findMostExpensiveProductInCategory()));
     }
 
     private void option1() {
-        System.out.println(toJson(ordersService.showAllOrders()));
+        System.out.println(toJson(ORDERS_SERVICE.showAllOrders()));
     }
 
-    private static <T> String toJson (T item){
+    private static <T> String toJson(T item) {
         Gson gson = new GsonBuilder()
                 .setPrettyPrinting()
                 .create();
